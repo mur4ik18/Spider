@@ -6,9 +6,21 @@
 Spider spider;
 
 void setup() {
+    Serial.begin(9600);
+    Serial.println("Start programe");
     inirt();
     delay(5000);
-    stay();
+    //stay();
+    //delay(5000);
+    //check_legs();
+    //delay(5000);
+    wakeup();
+    delay(1000);
+    go_forward();
+
+    delay(5000);
+    sleep();
+
 }
 
 void inirt()
@@ -23,12 +35,56 @@ void inirt()
     spider.legs[2].goToZero();
     spider.legs[3].goToZero();
 }
-void stay()
+
+void sleep()
 {
-    spider.legs[0].move_knee(120);
-    spider.legs[1].move_knee(120);
-    spider.legs[2].move_knee(120);
-    spider.legs[3].move_knee(120);
+  for (int i = 0; i < 4; i++)
+    {
+        spider.legs[i].move_knee(-(-30 +spider.legs[i].get_knee_angle()));
+        delay(1000);
+    }
+}
+
+void wakeup()
+{
+    for (int i = 0; i < 4; i++)
+    {
+        spider.legs[i].move_knee(60);
+        delay(1000);
+    }
+    for (int i = 0; i < 4; i++)
+    {
+        spider.legs[i].move_knee(10);
+        delay(1000);
+    }
+}
+void move_leg(int leg, int knee, int hip)
+{
+    spider.legs[leg].move_knee(knee);
+    delay(100);
+    spider.legs[leg].move_joint(hip);
+    delay(100);
+}
+
+void go_forward()
+{
+    delay(1000);
+
+    move_leg(0, -30, 40);
+    move_leg(0, 30, 0);
+
+    move_leg(1, -30, -40);
+    move_leg(1, 30, 0);
+
+    move_leg(2, -30, 60);
+    move_leg(2, 30, 0);
+
+
+    move_leg(3, -30, -60);
+    move_leg(3, 30, 0);
+
+    move_leg(0, 0, -40);
+    move_leg(1, 0, 40);
 }
 void loop() {
     

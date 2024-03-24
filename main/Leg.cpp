@@ -4,6 +4,7 @@
 
 #include "Leg.h"
 #include <Servo.h>
+#include <Arduino.h>
 
 void Leg::init(int coxaPin, int tibiaPin, int kA, int jA) {
     this->jointServo.attach(coxaPin);
@@ -16,14 +17,14 @@ void Leg::init(int coxaPin, int tibiaPin, int kA, int jA) {
     this->kneeServo.write(kneeAngle);
 }
 void Leg::move_joint(double jointAngle) {
-    this->jointServo.write(jointAngle);
-    this->ijointAngle += jointAngle;
-    this->jointAngle += jointAngle;
+    this->move_smothely_joint(jointAngle);
+    //this->jointServo.write(jointAngle);
+    //this->jointAngle = jointAngle;
 }
 void Leg::move_knee(double kA) {
-    this->kneeServo.write(kA);
-    this->ikneeAngle += kneeAngle;
-    this->kneeAngle += kneeAngle;
+    this->move_smothely_knee(kA);
+    //this->kneeServo.write(kA);
+    //this->kneeAngle = kA;
 }
 
 void Leg::goToZero() {
@@ -32,3 +33,68 @@ void Leg::goToZero() {
     this->jointAngle = this->jointAngle - this->ijointAngle;
     this->kneeAngle = this->kneeAngle - this->ikneeAngle;
 }
+
+int Leg::get_iknee_angle()
+{
+    return this->ikneeAngle;
+}
+
+int Leg::get_ijoint_angle()
+{
+    return this->ijointAngle;
+}
+
+int Leg::get_knee_angle()
+{
+    return this->kneeAngle;
+}
+
+int Leg::get_joint_angle()
+{
+    return this->jointAngle;
+}
+
+void Leg::move_smothely_joint(int angle)
+{
+    Serial.print(this->jointAngle);
+    int gotovalue = this->jointAngle + angle;
+    Serial.print(gotovalue);
+    if (gotovalue <= 0)
+    {
+        gotovalue = 0;
+    }
+    for (int i = this->jointAngle; i >= gotovalue; i--) {
+        delay(10);
+        this->jointServo.write(i);
+        this->jointAngle = i;
+    }
+    for (int i = this->jointAngle; i <= gotovalue; i++)
+    {
+        delay(10);
+        this->jointServo.write(i);
+        this->jointAngle = i;
+    }
+}
+
+void Leg::move_smothely_knee(int angle)
+{
+    Serial.print(this->kneeAngle);
+    int gotovalue = this->kneeAngle + angle;
+    Serial.print(gotovalue);
+    if (gotovalue <= 0)
+    {
+        gotovalue = 0;
+    }
+    for (int i = this->kneeAngle; i >= gotovalue; i--) {
+        delay(10);
+        this->kneeServo.write(i);
+        this->kneeAngle = i;
+    }
+    for (int i = this->kneeAngle; i <= gotovalue; i++)
+    {
+        delay(10);
+        this->kneeServo.write(i);
+        this->kneeAngle = i;
+    }
+}
+

@@ -2,24 +2,23 @@
 #include "spider.h"
 #include "Leg.h"
 
-
+Servo ser;
 Spider spider;
 
 void setup() {
     Serial.begin(9600);
     Serial.println("Start programe");
     inirt();
-    delay(5000);
-    //stay();
+    delay(2000);
     //delay(5000);
     //check_legs();
     //delay(5000);
     wakeup();
-    delay(1000);
-    go_forward();
+    //delay(1000);
+    //_forward();
 
-    delay(5000);
-    sleep();
+    //delay(5000);
+    //sleep();
 
 }
 
@@ -28,8 +27,8 @@ void inirt()
     spider.init(4);
     spider.addLeg(0,2, 3, 40, 60);
     spider.addLeg(1,4, 5, 40, 60);
-    spider.addLeg(2,6, 7, 40, 30);
-    spider.addLeg(3,8, 9, 40, 100);
+    spider.addLeg(2,6, 7, 40, 50);
+    spider.addLeg(3,8, 9, 40, 80);
     spider.legs[0].goToZero();
     spider.legs[1].goToZero();
     spider.legs[2].goToZero();
@@ -43,6 +42,10 @@ void sleep()
         spider.legs[i].move_knee(-(-30 +spider.legs[i].get_knee_angle()));
         delay(1000);
     }
+    spider.legs[0].goToZero();
+    spider.legs[1].goToZero();
+    spider.legs[2].goToZero();
+    spider.legs[3].goToZero();
 }
 
 void wakeup()
@@ -75,6 +78,7 @@ void go_forward()
 
     move_leg(1, -30, -40);
     move_leg(1, 30, 0);
+
 
     move_leg(2, -30, 60);
     move_leg(2, 30, 0);

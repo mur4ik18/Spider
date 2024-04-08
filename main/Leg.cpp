@@ -64,13 +64,13 @@ void Leg::move_smothely_joint(int angle)
         gotovalue = 0;
     }
     for (int i = this->jointAngle; i >= gotovalue; i--) {
-        delay(10);
+        delay(1);
         this->jointServo.write(i);
         this->jointAngle = i;
     }
     for (int i = this->jointAngle; i <= gotovalue; i++)
     {
-        delay(10);
+        delay(1);
         this->jointServo.write(i);
         this->jointAngle = i;
     }
@@ -86,13 +86,13 @@ void Leg::move_smothely_knee(int angle)
         gotovalue = 0;
     }
     for (int i = this->kneeAngle; i >= gotovalue; i--) {
-        delay(10);
+        delay(5);
         this->kneeServo.write(i);
         this->kneeAngle = i;
     }
     for (int i = this->kneeAngle; i <= gotovalue; i++)
     {
-        delay(10);
+        delay(5);
         this->kneeServo.write(i);
         this->kneeAngle = i;
     }

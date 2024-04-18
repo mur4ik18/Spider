@@ -1,23 +1,26 @@
 #include <Servo.h>
-#include "spider.h"
+#include "Spider.h"
 #include "Leg.h"
-
+#include "Queue.h"
 Servo ser;
 Spider spider;
+
+Queue* queue = createQueue();
 
 void setup() {
     Serial.begin(9600);
     Serial.println("Start program");
-    inirt();
+    //inirt();
+
 }
 
 void inirt()
 {
     spider.init(4);
-    spider.addLeg(0,16, 5, 40, 60);
-    spider.addLeg(1,4, 0, 40, 60);
-    spider.addLeg(2,2, 14, 40, 50);
-    spider.addLeg(3,12, 13, 40, 80);
+    spider.addLeg(0,3, 2, 40, 60);
+    spider.addLeg(1,4,5, 40, 60);
+    spider.addLeg(2,6, 7, 40, 50);
+    spider.addLeg(3,9, 8, 40, 80);
     spider.legs[0].goToZero();
     spider.legs[1].goToZero();
     spider.legs[2].goToZero();
@@ -32,6 +35,14 @@ void sleep()
         spider.legs[i].move_knee(-(-30 +spider.legs[i].get_knee_angle()));
         delay(1000);
     }
+    spider.legs[0].goToZero();
+    spider.legs[1].goToZero();
+    spider.legs[2].goToZero();
+    spider.legs[3].goToZero();
+}
+
+void gotoZero()
+{
     spider.legs[0].goToZero();
     spider.legs[1].goToZero();
     spider.legs[2].goToZero();
@@ -131,16 +142,21 @@ void go_forward()
     move_leg(0, 0, -40);
     move_leg(1, 0, 40);
 }
-void loop() {
-    if (Serial.available() > 0) {
-        char *input = Serial.read();
 
-        switch (input) {
-            case "move":
-                move_leg(0, b0 - spider.legs[0].get_knee_angle(), a0 - spider.legs[0].get_joint_angle());
-                break;
-            default:
-                Serial.print("I got : " + input);
+
+
+
+
+char *command = "";
+void loop() {
+    
+    if (Serial.available() > 0) {
+        char c = Serial.read();
+        if (c == ' ') {
+            add(queue, command);
+            command = "";
+        } else {
+            command += c;
         }
     }
 }

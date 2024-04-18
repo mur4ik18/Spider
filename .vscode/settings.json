@@ -1,0 +1,18 @@
+{
+    "files.associations": {
+        "*.embeddedhtml": "html",
+        "queue": "cpp",
+        "iostream": "cpp",
+        "array": "cpp",
+        "future": "cpp",
+        "istream": "cpp",
+        "locale": "cpp",
+        "tuple": "cpp",
+        "variant": "cpp",
+        "*.tcc": "cpp",
+        "memory": "cpp",
+        "format": "cpp",
+        "functional": "cpp",
+        "utility": "cpp"
+    }
+}

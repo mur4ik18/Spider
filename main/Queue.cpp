@@ -1,61 +1,62 @@
-#include <iostream>
 #include "Queue.h"
-using namespace std;
-Queue* createQueue()
-{
-    Queue* queue = new Queue();
-    queue->size = 0;
-    queue->capacity = 10;
+#include <Arduino.h>
 
-    queue->commands = new char*[queue->capacity];
-    return queue;
+void Queue::createQueue()
+{
+    this->size = 0;
+    this->capacity = 10;
+    this->commands = new char*[capacity];
 }
  
 // Queue is empty when size is 0
-int isEmpty(Queue* queue)
+int Queue::isEmpty()
 {
-    return (queue->size == 0);
+    return (this->size == 0);
 }
  
 // Function to add an item to the queue.
 // It changes rear and size
-void add(Queue* queue, char item[])
+void Queue::add(char item[])
 {
-    queue->commands[queue->size++] = item;
-    cout << item << " enqueued to queue\n";
+    this->commands[this->size++] = item;
+    Serial.println(item);
+    Serial.println(" enqueued to queue\n");
 }
 
-void print(Queue* queue)
+void Queue::print()
 {
-    for (int i = 0; i < queue->size; i++) {
-        cout << queue->commands[i] << " ";
+    for (int i = 0; i < this->size; i++) {
+        Serial.println(this->commands[i]);
     }
-    cout << endl;
+    Serial.println();
 }
-char* get(Queue* queue)
+char* Queue::get()
 {
-    char* command = queue->commands[0];
-    for (int i = 0; i < queue->size - 1; i++) {
-        queue->commands[i] = queue->commands[i + 1];
+    char* command = this->commands[0];
+    for (int i = 0; i < this->size - 1; i++) {
+        this->commands[i] = this->commands[i + 1];
     }
-    queue->size--;
+    this->size--;
     return command;
 }
 
-void free(Queue* queue)
+void Queue::free()
 {
-    delete[] queue->commands;
-    delete queue;
+    delete[] this->commands;
 }
-
+/*
 int main() {
     Queue* queue = createQueue();
-    string flow = "init_0_3_2_40_60 init_1_4_5_40_60 init_2_6_7_40_50 init_3_9_8_40_80 goto_zero_0 goto_zero_1 goto_zero_2 goto_zero_3 delay_1000";
+    string flow = "init_0_3_2_40_60 init_1_4_5_40_60 init_2_6_7_40_50 run init_3_9_8_40_80 goto_zero_0 goto_zero_1 goto_zero_2 goto_zero_3 delay_1000";
 
     string command = "";
     for (int i = 0; flow[i] != '\0'; i++) {
         char c = flow[i];
         if (c == ' ') {
+            if (command == "run") {
+                cout << "run command found" << endl;
+                cout << command << endl;
+            }
             add(queue, strdup(command.c_str()));
             command = "";
         } else {
@@ -67,6 +68,9 @@ int main() {
         add(queue, strdup(command.c_str()));
     }
 
+
+
+
     print(queue);
     while (!isEmpty(queue)) {
         cout << get(queue) << " dequeued from queue\n";
@@ -75,3 +79,4 @@ int main() {
     free(queue);
     return 0;
 }
+*/

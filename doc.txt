@@ -1,0 +1,9 @@
+init_4 addleg_0_3_2_40_60 addleg_1_4_5_50_60 addleg_2_6_7_40_50 addleg_3_9_8_40_80 run 
+gotoZero_0 gotoZero_1 gotoZero_2 gotoZero_3 run 
+
+addleg_0_3_2_40_60 gotoZero_0 run 
+addleg_1_4_5_50_60 gotoZero_1 run 
+addleg_2_6_7_40_50 gotoZero_2 run 
+addleg_3_9_8_40_80 gotoZero_3 run 
+
+wakaup run 

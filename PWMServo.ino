@@ -1,0 +1,102 @@
+#include <Wire.h>
+#include <Adafruit_PWMServoDriver.h>
+
+// called this way, it uses the default address 0x40
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
+
+#define SERVOMIN  150 // This is the 'minimum' pulse length count (out of 4096)
+#define SERVOMAX  600 // This is the 'maximum' pulse length count (out of 4096)
+#define USMIN  600 // This is the rounded 'minimum' microsecond length based on the minimum pulse of 150
+#define USMAX  2400 // This is the rounded 'maximum' microsecond length based on the maximum pulse of 600
+#define SERVO_FREQ 50 // Analog servos run at ~50 Hz updates
+
+// our servo # counter
+uint8_t servonum = 0;
+void up()
+{
+  pwm.setPWM(0, 0, SERVOMIN+((SERVOMAX/270)*0)); // coxa 90 centre - 0 away
+  pwm.setPWM(1, 0, SERVOMIN+((SERVOMAX/270)*90)); // femur 90 down - 0 up
+  pwm.setPWM(2, 0, SERVOMIN+((SERVOMAX/270)*90)); // tibia 
+
+  pwm.setPWM(4, 0, SERVOMIN+((SERVOMAX/270)*90)); // coxa 0 centre - 90 away
+  pwm.setPWM(5, 0, SERVOMIN+((SERVOMAX/270)*0)); // femur 0 down - 90 up
+  pwm.setPWM(6, 0, SERVOMIN+((SERVOMAX/270)*0)); // tibia 
+
+  pwm.setPWM(8, 0, SERVOMIN+((SERVOMAX/270)*0)); // coxa 90 centre - 0 away
+  pwm.setPWM(9, 0, SERVOMIN+((SERVOMAX/270)*90)); // femur 90 down - 0 up
+  pwm.setPWM(10, 0, SERVOMIN+((SERVOMAX/270)*90)); // tibia 
+
+  
+  pwm.setPWM(13, 0, SERVOMIN+((SERVOMAX/270)*90)); // coxa 0 centre - 90 away
+  pwm.setPWM(12, 0, SERVOMIN+((SERVOMAX/270)*0)); // femur 0 down - 90 up
+  pwm.setPWM(15, 0, SERVOMIN+((SERVOMAX/270)*0)); // tibia 
+}
+
+void stay()
+{
+  pwm.setPWM(0, 0, SERVOMIN+((SERVOMAX/270)*0)); // coxa 90 centre - 0 away
+  pwm.setPWM(1, 0, SERVOMIN+((SERVOMAX/270)*50)); // femur 90 down - 0 up
+  pwm.setPWM(2, 0, SERVOMIN+((SERVOMAX/270)*40)); // tibia 
+
+  pwm.setPWM(4, 0, SERVOMIN+((SERVOMAX/270)*90)); // coxa 0 centre - 90 away
+  pwm.setPWM(5, 0, SERVOMIN+((SERVOMAX/270)*40)); // femur 0 down - 90 up
+  pwm.setPWM(6, 0, SERVOMIN+((SERVOMAX/270)*50)); // tibia 
+
+  pwm.setPWM(8, 0, SERVOMIN+((SERVOMAX/270)*0)); // coxa 90 centre - 0 away
+  pwm.setPWM(9, 0, SERVOMIN+((SERVOMAX/270)*50)); // femur 90 down - 0 up
+  pwm.setPWM(10, 0, SERVOMIN+((SERVOMAX/270)*40)); // tibia 
+
+  
+  pwm.setPWM(13, 0, SERVOMIN+((SERVOMAX/270)*90)); // coxa 0 centre - 90 away
+  pwm.setPWM(12, 0, SERVOMIN+((SERVOMAX/270)*40)); // femur 0 down - 90 up
+  pwm.setPWM(15, 0, SERVOMIN+((SERVOMAX/270)*50)); // tibia 
+}
+
+
+void setup() {
+  Serial.begin(9600);
+  Serial.println("8 channel Servo test!");
+
+  pwm.begin();
+
+  pwm.setOscillatorFrequency(27000000);
+  pwm.setPWMFreq(SERVO_FREQ);  // Analog servos run at ~50 Hz updates
+
+  delay(10);
+
+  stay();
+  delay(10000);
+}
+
+void loop() {
+  /*
+  // Drive each servo one at a time using setPWM()
+  Serial.println(servonum);
+  for (uint16_t pulselen = SERVOMIN; pulselen < SERVOMAX; pulselen++) {
+    pwm.setPWM(servonum, 0, SERVOMIN);
+  }
+
+  delay(500);
+  for (uint16_t pulselen = SERVOMAX; pulselen > SERVOMIN; pulselen--) {
+    pwm.setPWM(servonum, 0, pulselen);
+  }
+
+  delay(500);
+
+  // Drive each servo one at a time using writeMicroseconds(), it's not precise due to calculation rounding!
+  // The writeMicroseconds() function is used to mimic the Arduino Servo library writeMicroseconds() behavior. 
+  for (uint16_t microsec = USMIN; microsec < USMAX; microsec++) {
+    pwm.writeMicroseconds(servonum, microsec);
+  }
+
+  delay(500);
+  for (uint16_t microsec = USMAX; microsec > USMIN; microsec--) {
+    pwm.writeMicroseconds(servonum, microsec);
+  }
+
+  delay(500);
+
+  servonum++;
+  if (servonum > 15) servonum = 0; // Testing the first 8 servo channels
+  */
+}

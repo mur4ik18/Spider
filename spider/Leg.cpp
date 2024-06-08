@@ -41,6 +41,7 @@ void Leg::move_joint(double jointAngle) {
         this->jointAngle = i;
     }
 }
+
 void Leg::move_knee(double kA) {
     Serial.print(this->kneeAngle);
     int gotovalue = this->kneeAngle + kA;

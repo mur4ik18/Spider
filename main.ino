@@ -122,35 +122,3 @@ void loop() {
       f2 = 0;
     }
 }
-
-void sleep()
-{
-  for (int i = 0; i < 4; i++)
-    {
-        spider.legs[i].move_smothely_knee(-(-30 +spider.legs[i].get_knee_angle()));
-        delay(1000);
-    }
-    spider.legs[0].goToZero();
-    spider.legs[1].goToZero();
-    spider.legs[2].goToZero();
-    spider.legs[3].goToZero();
-}
-
-void wakeup()
-{
-    for (int i = 0; i < 4; i++)
-    {
-        spider.legs[i].move_smothely_knee(-(-30 +spider.legs[i].get_knee_angle())+60);
-        delay(100);
-    }
-    for (int i = 0; i < 4; i++)
-    {
-        spider.legs[i].move_smothely_knee(10);
-        delay(100);
-    }
-}
-void move_leg(int leg, int knee, int hip)
-{
-    spider.legs[leg].move_smothely_knee(knee);
-    spider.legs[leg].move_smothely_joint(hip);
-}
